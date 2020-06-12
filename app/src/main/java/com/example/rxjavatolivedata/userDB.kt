@@ -16,4 +16,7 @@ interface userDB {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUsers(model: model) : Completable
+
+    @Query("DELETE FROM userTable WHERE userID NOT IN (SELECT MIN(userID) FROM userTable GROUP BY name, username)")
+    fun removeDuplicates() : Completable
 }
